@@ -15,26 +15,24 @@ const NavigationBar = () => {
   const handleDisplayClick = () => {
     setDropdown(!dropdown);
   }
-  const handleOptionChange = (str) => {
+  
+  const handleOptionChange = (str , stri) => {
     // setGrouping(str);
     if (str === 'status') {
-      dispatch(setGrouping(tickets.byStatus));
+      dispatch(setGrouping(tickets.byStatus , stri));
     }
     else if (str === 'priority') {
-      dispatch(setGrouping(tickets.byPriority));
+      dispatch(setGrouping(tickets.byPriority , stri));
     }
     else {
-      dispatch(setGrouping(tickets.byUser));
+      dispatch(setGrouping(tickets.byUser , stri));
     }
     setSelectedGrouping(str);
+    setSelectedOrdering(stri);
     handleDisplayClick();
   }
 
-  const handleOrdering = (str) => {
-    dispatch(setOrdering(str, tickets.mainArray));
-    setSelectedOrdering(str);
-    handleDisplayClick();
-  }
+
   return (
     <div className='navbar'>
       <div className="dropdown-container">
@@ -54,7 +52,7 @@ const NavigationBar = () => {
             <div className="options-container">
               <div className="option">
                 <span className='optionFlex'>Grouping:</span>
-                <select onChange={(e) => handleOptionChange(e.target.value)} value={selectedGrouping}>
+                <select onChange={(e) => handleOptionChange(e.target.value , selectedOrdering)} value={selectedGrouping}>
                   <option value="user" >User</option>
                   <option value="status" >Status</option>
                   <option value="priority" >Priority</option>
@@ -62,7 +60,7 @@ const NavigationBar = () => {
               </div>
               <div className="option">
                 <span className='optionFlex'>Ordering:</span>
-                <select onChange={(e) => handleOrdering(e.target.value)} value={selectedOrdering}>
+                <select onChange={(e) => handleOptionChange(selectedGrouping , e.target.value)} value={selectedOrdering}>
                   <option value="priority">Priority</option>
                   <option value="title">Title</option>
                 </select>

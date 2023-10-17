@@ -52,7 +52,6 @@ export const fetchTickets = () => async (dispatch) => {
     try {
         let response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
         const data = await response.json();
-        dispatch(setTickets(data));
         const datai = data.tickets;
 
         // Grouping by status
@@ -87,6 +86,7 @@ export const fetchTickets = () => async (dispatch) => {
                 groupedByUserId[userId].push(item);
             }
         });
+        dispatch(setTickets(data));
         dispatch(setByStatus(groupedByStatus));
         dispatch(setByPriority(groupedByPriority));
         dispatch(setByUser(groupedByUserId));
@@ -110,13 +110,9 @@ export const fetchTickets = () => async (dispatch) => {
     }
 };
 
-export const setGrouping = (data) => async (dispatch) => {
-    dispatch(setMainArray(data));
-}
-
-export const setOrdering = (sortBy, mainArray) => async (dispatch) => {
+export const setGrouping = (mainArray ,sortBy ) => async (dispatch) => {
     const sortedMainArray = {};
-
+    console.log(sortBy);
     // Loop through all categories in mainArray
     for (const category in mainArray) {
         if (mainArray.hasOwnProperty(category)) {
@@ -128,7 +124,7 @@ export const setOrdering = (sortBy, mainArray) => async (dispatch) => {
                 if (sortBy === 'title') {
                     return a.title.localeCompare(b.title);
                 } else if (sortBy === 'priority') {
-                    return a.priority - b.priority;
+                    return b.priority - a.priority;
                 }
                 // Add additional sorting criteria if needed
                 return 0;
