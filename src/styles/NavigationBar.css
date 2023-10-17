@@ -1,0 +1,70 @@
+.navbar {
+	background-color: #ffffff;
+	color: #fff;
+	padding: 0.5rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+/* Basic styles for the container */
+.dropdown-container {
+	position: relative;
+	display: inline-block;
+}
+
+/* Style the button */
+.dropdown-btn {
+	padding: 10px;
+	background-color: #ffffff;
+	color: #000000;
+	font-weight: bolder;
+	font-family: Arial, Helvetica, sans-serif;
+	border: 1px solid rgb(227, 223, 223);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	cursor: pointer;
+}
+.material-symbols-outlined {
+	font-size: 80%;
+}
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+	position: absolute;
+	margin-top: 5px;
+	background-color: #f2f2f2;
+	border: 1px solid #bcbcbc;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	padding: 10px 10px;
+	z-index: 1;
+}
+
+/* Style the options container */
+.options-container {
+	display: grid;
+	flex-direction: row;
+}
+
+/* Style the options */
+.option {
+	padding: 12px 8px;
+	display: flex;
+	width: 200px;
+	flex-direction: row;
+	color: #333;
+}
+
+/* Show the dropdown content when the button is clicked */
+select{
+	width: 80px;
+	margin-left: auto;
+	border: 1px solid #bcbcbc;
+	border-radius: 4px;
+}
+
+.optionFlex{
+	margin-right: 15px;
+	color: #9b9b9b;
+}
+
+
