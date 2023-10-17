@@ -90,10 +90,40 @@ export const fetchTickets = () => async (dispatch) => {
         dispatch(setByStatus(groupedByStatus));
         dispatch(setByPriority(groupedByPriority));
         dispatch(setByUser(groupedByUserId));
-        dispatch(setMainArray(groupedByUserId));
+
+        // logic for localstorage data
+        let mainArray = groupedByUserId;
+        if (localStorage.getItem('grouping') === 'status') {
+            dispatch(setMainArray(groupedByStatus));
+            mainArray = groupedByStatus;
+        }
+        else if (localStorage.getItem('grouping') === 'priority') {
+            dispatch(setMainArray(groupedByPriority));
+            mainArray = groupedByPriority;
+        }
+        else {
+            dispatch(setMainArray(groupedByUserId));
+        }
+
+        const sortedMainArray = {};
+        for (const category in mainArray) {
+            if (mainArray.hasOwnProperty(category)) {
+                const sortedArray = [...mainArray[category]];
+                sortedArray.sort((a, b) => {
+                    if (localStorage.getItem('ordering') === 'title') {
+                        return a.title.localeCompare(b.title);
+                    } else {
+                        return b.priority - a.priority;
+                    }
+                });
+                sortedMainArray[category] = sortedArray;
+            }
+        }
+        dispatch(setMainArray(sortedMainArray));
+
+
 
         const userObjects = [];
-
         data.users.forEach(user => {
             userObjects.push({ id: user.id, name: user.name });
         });
@@ -110,27 +140,19 @@ export const fetchTickets = () => async (dispatch) => {
     }
 };
 
-export const setGrouping = (mainArray ,sortBy ) => async (dispatch) => {
+export const setGrouping = (mainArray, sortBy) => async (dispatch) => {
     const sortedMainArray = {};
-    console.log(sortBy);
-    // Loop through all categories in mainArray
     for (const category in mainArray) {
         if (mainArray.hasOwnProperty(category)) {
-            // Create a shallow copy of the array before sorting
             const sortedArray = [...mainArray[category]];
-
-            // Sort the array in place based on title or priority
             sortedArray.sort((a, b) => {
                 if (sortBy === 'title') {
                     return a.title.localeCompare(b.title);
                 } else if (sortBy === 'priority') {
                     return b.priority - a.priority;
                 }
-                // Add additional sorting criteria if needed
                 return 0;
             });
-
-            // Assign the sorted array to the new object
             sortedMainArray[category] = sortedArray;
         }
     }

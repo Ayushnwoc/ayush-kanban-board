@@ -1,7 +1,23 @@
 import React, { useState } from 'react'
 import '../styles/NavigationBar.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { setGrouping, setOrdering } from '../redux/slices'
+import { setGrouping} from '../redux/slices'
+
+const getOrdering = () => {
+  if (localStorage.getItem('ordering') === null) {
+    return 'priority';
+  } else {
+    return localStorage.getItem('ordering');
+  }
+};
+
+const getGrouping = () => {
+  if (localStorage.getItem('grouping') === null) {
+    return 'user';
+  } else {
+    return localStorage.getItem('grouping');
+  }
+};
 
 const NavigationBar = () => {
 
@@ -9,13 +25,13 @@ const NavigationBar = () => {
 
   const tickets = useSelector((state) => state.data);
   const [dropdown, setDropdown] = useState(false);
-  const [selectedGrouping, setSelectedGrouping] = useState('user');
-  const [selectedOrdering, setSelectedOrdering] = useState('priority');
+  const [selectedGrouping, setSelectedGrouping] = useState(getGrouping());
+  const [selectedOrdering, setSelectedOrdering] = useState(getOrdering());
 
   const handleDisplayClick = () => {
     setDropdown(!dropdown);
   }
-  
+
   const handleOptionChange = (str , stri) => {
     // setGrouping(str);
     if (str === 'status') {
@@ -28,9 +44,13 @@ const NavigationBar = () => {
       dispatch(setGrouping(tickets.byUser , stri));
     }
     setSelectedGrouping(str);
+    localStorage.setItem('grouping', str);
+    console.log(stri);
     setSelectedOrdering(stri);
+    localStorage.setItem('ordering', stri);
     handleDisplayClick();
   }
+
 
 
   return (
